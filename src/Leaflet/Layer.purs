@@ -11,12 +11,11 @@ import Prelude ( Unit
                , class Show
                , show
                , (<>)
-               , id
+               , identity
                , (<<<)
                , ($)
                )
 import Prelude as P
-import Control.Monad.Eff
 import Data.Array as Array
 import Data.Tuple (Tuple (..), fst, snd)
 import Leaflet.Types
@@ -44,4 +43,4 @@ class IsLayer a where
   toLayer :: a -> Layer
 
 instance isLayerLayer :: IsLayer Layer where
-  toLayer = id
+  toLayer = identity

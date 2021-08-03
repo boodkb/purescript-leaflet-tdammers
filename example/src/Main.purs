@@ -5,12 +5,9 @@ import Prelude
 import Leaflet as L
 import Leaflet.TileLayer as TileLayer
 import Leaflet.Marker as Marker
-import Leaflet (LEAFLET)
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
-import Data.Traversable (for)
+import Effect (Effect)
 
-main :: forall eff. Eff (leaflet :: LEAFLET, console :: CONSOLE | eff) Unit
+main :: Effect Unit
 main = do
   m <- L.map "mymap" (L.latlng 50.0 0.0) 10
   tiles <- L.tileLayer

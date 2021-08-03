@@ -19,12 +19,11 @@ import Prelude ( Unit
                , class Show
                , show
                , (<>)
-               , id
+               , identity
                , (<<<)
                , ($)
                )
 import Prelude as P
-import Control.Monad.Eff
 import Data.Array as Array
 import Data.Tuple (Tuple (..), fst, snd)
 import Leaflet.Types
@@ -52,30 +51,30 @@ data Option
   | LayerOption Layer.Option
 
 gridSize :: Int -> Option
-gridSize = GridSize 
+gridSize = GridSize
 opacity :: Number -> Option
-opacity = Opacity 
+opacity = Opacity
 updateWhenIdle :: Boolean -> Option
-updateWhenIdle = UpdateWhenIdle 
+updateWhenIdle = UpdateWhenIdle
 updateWhenZooming :: Boolean -> Option
-updateWhenZooming = UpdateWhenZooming 
+updateWhenZooming = UpdateWhenZooming
 updateInterval :: Number -> Option
-updateInterval = UpdateInterval 
+updateInterval = UpdateInterval
 zIndex :: Int -> Option
-zIndex = ZIndex 
+zIndex = ZIndex
 bounds :: LatLngBounds -> Option
-bounds = Bounds 
+bounds = Bounds
 noWrap :: Boolean -> Option
-noWrap = NoWrap 
+noWrap = NoWrap
 pane :: String -> Option
-pane = Pane 
+pane = Pane
 className :: String -> Option
-className = ClassName 
+className = ClassName
 keepBuffer :: Int -> Option
-keepBuffer = KeepBuffer 
+keepBuffer = KeepBuffer
 
 layerOption :: Layer.Option -> Option
-layerOption = LayerOption 
+layerOption = LayerOption
 
 attribution :: String -> Option
 attribution = layerOption <<< Layer.attribution

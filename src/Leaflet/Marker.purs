@@ -20,12 +20,12 @@ import Prelude ( Unit
                , class Show
                , show
                , (<>)
-               , id
+               , identity
                , (<<<)
                , ($)
                )
 import Prelude as P
-import Control.Monad.Eff
+import Effect (Effect)
 import Data.Array as Array
 import Data.Tuple (Tuple (..), fst, snd)
 import Leaflet.Types
@@ -46,7 +46,7 @@ instance isLayerMarker :: IsLayer Marker where
 foreign import markerJS :: forall e
                             . LatLng
                            -> Options
-                           -> Eff (leaflet :: LEAFLET | e) Marker
+                           -> Effect Marker
 
 -- | Options to be passed to a marker layer at construction time. See
 -- | http://leafletjs.com/reference-1.0.3.html#marker for an explanation of
@@ -117,7 +117,7 @@ instance isOptionMarkerOption :: IsOption Option where
 marker :: forall e
           . LatLng
          -> Array Option
-         -> Eff (leaflet :: LEAFLET | e) Marker
+         -> Effect Marker
 marker position optionList = do
   let options = mkOptions optionList
   markerJS position options

@@ -4,7 +4,7 @@ where
 import Prelude
 import Leaflet.LatLng
 import Leaflet.Types
-import Control.Monad.Eff
+import Effect (Effect)
 import Data.Newtype
 import Leaflet.Evented
 
@@ -41,29 +41,25 @@ mouseEventKey Click = "click"
 mouseEventKey DblClick = "dblclick"
 
 -- | Subscribe to a mouse event by name.
-foreign import onMouseEventJS :: forall e
-                               . String
+foreign import onMouseEventJS :: String
                               -> MouseEventTarget
-                              -> (MouseEvent -> Eff (leaflet :: LEAFLET | e) Unit)
-                              -> Eff (leaflet :: LEAFLET | e) MouseEventHandle
+                              -> (MouseEvent -> Effect Unit)
+                              -> Effect MouseEventHandle
 
 -- | Unsubscribe from a mouse event by name.
-foreign import offMouseEventJS :: forall e
-                                . String
+foreign import offMouseEventJS :: String
                                -> MouseEventTarget
                                -> MouseEventHandle
-                               -> Eff (leaflet :: LEAFLET | e) Unit
+                               -> Effect Unit
 
-onMouseEvent :: forall e
-              . MouseEventType
+onMouseEvent :: MouseEventType
              -> MouseEventTarget
-             -> (MouseEvent -> Eff (leaflet :: LEAFLET | e) Unit)
-             -> Eff (leaflet :: LEAFLET | e) MouseEventHandle
+             -> (MouseEvent -> Effect Unit)
+             -> Effect MouseEventHandle
 onMouseEvent = onMouseEventJS <<< mouseEventKey
 
-offMouseEvent :: forall e
-               . MouseEventType
+offMouseEvent :: MouseEventType
               -> MouseEventTarget
               -> MouseEventHandle
-              -> Eff (leaflet :: LEAFLET | e) Unit
+              -> Effect Unit
 offMouseEvent = offMouseEventJS <<< mouseEventKey

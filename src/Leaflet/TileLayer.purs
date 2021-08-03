@@ -28,19 +28,10 @@ module Leaflet.TileLayer
 )
 where
 
-import Prelude ( Unit
-               , class Show
-               , show
-               , (<>)
-               , id
-               , (<<<)
-               , ($)
-               )
-import Prelude as P
-import Control.Monad.Eff
+import Prelude ((<<<))
+import Effect (Effect)
 import Data.Array as Array
 import Data.Tuple (Tuple (..), fst, snd)
-import Leaflet.Types
 import Leaflet.LatLng
 import Leaflet.Options
 import Data.Maybe (Maybe (..))
@@ -51,10 +42,9 @@ import Leaflet.Layer as Layer
 -- | A URL template for tile layers.
 type UrlTemplate = String
 
-foreign import tileLayerJS :: forall e
-                            . UrlTemplate
+foreign import tileLayerJS :: UrlTemplate
                            -> Options
-                           -> Eff (leaflet :: LEAFLET | e) Layer
+                           -> Effect Layer
 
 -- | Options to be passed to a tile layer at construction time. See
 -- | http://leafletjs.com/reference-1.0.3.html#tilelayer for an explanation of
@@ -74,40 +64,40 @@ data Option
   | GridLayerOption GridLayer.Option
 
 minZoom :: Int -> Option
-minZoom = MinZoom 
+minZoom = MinZoom
 
 maxZoom :: Int -> Option
-maxZoom = MaxZoom 
+maxZoom = MaxZoom
 
 minNativeZoom :: (Maybe Int) -> Option
-minNativeZoom = MinNativeZoom 
+minNativeZoom = MinNativeZoom
 
 maxNativeZoom :: (Maybe Int) -> Option
-maxNativeZoom = MaxNativeZoom 
+maxNativeZoom = MaxNativeZoom
 
 subdomains :: (Array String) -> Option
-subdomains = Subdomains 
+subdomains = Subdomains
 
 errorTileUrl :: String -> Option
-errorTileUrl = ErrorTileUrl 
+errorTileUrl = ErrorTileUrl
 
 zoomOffset :: Int -> Option
-zoomOffset = ZoomOffset 
+zoomOffset = ZoomOffset
 
 tMS :: Boolean -> Option
-tMS = TMS 
+tMS = TMS
 
 zoomReverse :: Boolean -> Option
-zoomReverse = ZoomReverse 
+zoomReverse = ZoomReverse
 
 detectRetina :: Boolean -> Option
-detectRetina = DetectRetina 
+detectRetina = DetectRetina
 
 crossOrigin :: Boolean -> Option
-crossOrigin = CrossOrigin 
+crossOrigin = CrossOrigin
 
 gridLayerOption :: GridLayer.Option -> Option
-gridLayerOption = GridLayerOption 
+gridLayerOption = GridLayerOption
 
 gridSize :: Int -> Option
 gridSize = gridLayerOption <<< GridLayer.gridSize
@@ -172,10 +162,9 @@ instance isOptionTileLayerOption :: IsOption Option where
 -- | - `{s}`: subdomain
 -- |
 -- | Example: `"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"`
-tileLayer :: forall e
-          . UrlTemplate
+tileLayer :: UrlTemplate
          -> Array Option
-         -> Eff (leaflet :: LEAFLET | e) Layer
+         -> Effect Layer
 tileLayer url optionList = do
   let options = mkOptions optionList
   tileLayerJS url options

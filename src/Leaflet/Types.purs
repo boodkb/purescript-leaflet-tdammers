@@ -1,7 +1,6 @@
 -- | Basic types for Leaflet maps.
 module Leaflet.Types
-( LEAFLET
-, Zoom
+( Zoom
 , Pixels
 , Point
 )
@@ -11,17 +10,14 @@ import Prelude ( Unit
                , class Show
                , show
                , (<>)
-               , id
+               , identity
                , (<<<)
                , ($)
                )
 import Prelude as P
-import Control.Monad.Eff
+import Effect (Effect)
 import Data.Array as Array
 import Data.Tuple (Tuple (..), fst, snd)
-
--- | Anything that uses Leaflet has a `LEAFLET` effect.
-foreign import data LEAFLET :: Effect
 
 -- | A zoom level. Zoom levels start at 0 (which means "show the whole world")
 -- | and zoom in exponentially, each step corresponding to a factor of 2.
